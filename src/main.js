@@ -249,12 +249,16 @@ function calculateScore() {
         const p = cutPoints[i];// 위에서 재가 자를 때마다 저장해둔 점들 목록
         const dist = p.dist;// 가장가까운 곰돌이 테두리와 떨어진 거리 숫자가 작을 수록 정확하게
 
-        if (dist <= 12) {
-            score += 5;
-        } else if (dist <= 25) {
-            score += 3;
-        } else if (dist <= 40) {
-            score += 1;
+        if (dist <= 5) {
+            score += 5;   // 완전 정확 (거의 테두리 위)
+        } else if (dist <= 10) {
+            score += 3;   // 근접
+        } else if (dist <= 18) {
+            score += 1;   // 꽤 벗어남
+        } else if (dist <= 30) {
+            score += 0.5; // 거의 실패 수준
+        } else {
+            score += 0;   // 너무 멀리
         }
     }
 
@@ -272,6 +276,6 @@ function calculateScore() {
     }
 
     setTimeout(function () {
-        location.reload();
+        location.reload();// alert() 확인 누르면 현재페이지를 새로고침 하는 명령어
     }, 1500);
 }
