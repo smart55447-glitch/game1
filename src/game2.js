@@ -82,7 +82,7 @@
         applyVisuals();
 
         if (result === 'win') {
-            alert('통과! 🎉 CH3가 해금되었습니다.');
+            alert('통과! 🎉 CH3 오픈!!');
             localStorage.setItem('mc:chap2', 'cleared');
             localStorage.setItem('mc:chap3', 'unlocked');
             window.location.href = './ch.html';
