@@ -11,27 +11,27 @@ const timeHUD = document.getElementById('timeHUD');
    톱/커서 설정
    - CSS: translate(-30%,-50%) → 앵커는 (30%,50%)
 ========================== */
-const ANCHOR_PCT_X = 0.30;  // 이모지 박스 내 앵커 X
+const ANCHOR_PCT_X = 0.1;  // 이모지 박스 내 앵커 X
 const ANCHOR_PCT_Y = 0.50;  // 이모지 박스 내 앵커 Y
 
 // PC(마우스) 각도: 약간 우하향
 const MOUSE_ANGLE_RAD = -15 * Math.PI / 180;
 
 // 모바일(터치) 각도: 톱날이 '위'를 향하게 -90°
-const TOUCH_ANGLE_RAD = -Math.PI / 2;
+const TOUCH_ANGLE_RAD = Math.PI / 2;
 
 // 마우스에서 앵커→톱끝 길이(박스 너비 비율)
-const TIP_RATIO_MOUSE = 0.58;
+const TIP_RATIO_MOUSE = 0.8;
 
 // 터치에서 사용자가 '손잡이'를 정확히 잡도록 할 포인트(박스 비율)
-const HANDLE_PCT_X = 0.12;
+const HANDLE_PCT_X = 0.15;
 const HANDLE_PCT_Y = 0.72;
 
 // 마우스: 이모지를 커서보다 약간 아래 두어 커서가 이모지 위에 있는 느낌
 const CURSOR_OFFSET_Y_MOUSE = 18;
 
 // 터치: 점이 '톱보다 위'에 찍히도록 오프셋(px, 화면 기준 -Y)
-const DOT_OFFSET_UP_TOUCH = 28;
+const DOT_OFFSET_UP_TOUCH = 40;
 
 /* 상태 */
 let currentAngle = MOUSE_ANGLE_RAD;

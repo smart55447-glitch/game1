@@ -130,7 +130,7 @@ body {
     top: 0;
     transform: translate(-30%, -50%) rotate(-20deg);
     transform-origin: 0 0;
-    font-size: clamp(44px, 14vw, 92px);
+    font-size: clamp(40px, 14vw, 90px);
     line-height: 1;
     pointer-events: none;
     user-select: none;
