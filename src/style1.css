@@ -1,0 +1,346 @@
+/* === GLOBAL === */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #2A2153;
+    --panel: #3B2E63;
+    --ink: #FFE1A8;
+    --main: #FF9E1B;
+    --hi: #FFD275;
+
+    --space-1: clamp(6px, 1.5vw, 12px);
+    --space-2: clamp(10px, 2vw, 16px);
+    --space-3: clamp(14px, 3vw, 22px);
+    --radius-outer: clamp(0px, 2.5vw, 28px);
+    --radius-inner: clamp(0px, 2vw, 22px);
+}
+
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* 가로 스크롤 제거 */
+
+body,
+.crt-panel,
+.topbar,
+.center,
+.choose,
+.bottombar,
+.title-pixel,
+.ready,
+.hint,
+.label,
+.score,
+.choose a,
+.choose span {
+    font-family: 'Press Start 2P', 'Slashee', sans-serif !important;
+    -webkit-font-smoothing: none;
+    image-rendering: pixelated;
+    text-transform: none;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(180deg, #241B48 0%, #231A45 100%);
+    display: grid;
+    place-items: center;
+    /* ✅ 항상 중앙 정렬 */
+    color: var(--ink);
+    min-height: 100svh;
+    width: 100vw;
+}
+
+/* === CRT FRAME === */
+.crt-wrap {
+    width: min(92vw, 860px);
+    aspect-ratio: 16/10;
+    background: var(--bg);
+    border-radius: var(--radius-outer);
+    padding: var(--space-2);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, .45);
+    max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--space-2)*2);
+    overflow: hidden;
+    /* ✅ 내부 오버플로우 클립 */
+    margin: 0 auto;
+}
+
+.crt-panel {
+    width: 100%;
+    height: 100%;
+    background: var(--panel);
+    border-radius: var(--radius-inner);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 매우 작은 기기: 비율 고정 해제 */
+@media (max-width: 430px),
+(max-height: 540px) {
+    .crt-wrap {
+        width: 100vw;
+        max-width: 100vw;
+        aspect-ratio: auto;
+        height: 100svh;
+        border-radius: 0;
+        padding: env(safe-area-inset-top) var(--space-2) env(safe-area-inset-bottom);
+    }
+
+    .crt-panel {
+        border-radius: 0;
+    }
+}
+
+/* === TOP === */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2);
+    gap: var(--space-2);
+}
+
+.hiscore .label,
+.hiscore .score {
+    font-size: clamp(10px, 2.3vw, 14px);
+}
+
+.hiscore .score {
+    color: var(--hi);
+}
+
+.lives {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: clamp(6px, 2vw, 10px);
+}
+
+.lives li {
+    width: clamp(12px, 3vw, 18px);
+    height: clamp(12px, 3vw, 18px);
+    background: var(--main);
+    clip-path: polygon(20% 0, 80% 0, 100% 20%, 100% 60%, 50% 100%, 0 60%, 0 20%);
+}
+
+/* === MAIN === */
+.center {
+    display: grid;
+    place-items: center;
+    gap: var(--space-2);
+    text-align: center;
+    height: 70%;
+    padding: 0 var(--space-2);
+}
+
+.title-pixel {
+    margin: 0;
+    font-size: clamp(28px, 8vw, 72px);
+    line-height: 1.1;
+    font-weight: 900;
+    color: var(--main);
+    text-shadow: 0 4px 0 #B86412, 0 0 6px rgba(255, 160, 0, .4);
+    word-break: keep-all;
+}
+
+/* 🔨 이모지 대신 아이콘 이미지 */
+.hammer-ico-svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.12em;
+    margin-right: .3em;
+    filter: drop-shadow(0 1px 0 #B86412);
+    image-rendering: auto;
+    /* 글꼴과 충돌 방지 */
+}
+
+.ready {
+    opacity: .9;
+    line-height: 1.6;
+    font-weight: 700;
+    font-size: clamp(12px, 3.4vw, 16px);
+    padding: 0 var(--space-1);
+}
+
+/* === BUTTONS === */
+.choose {
+    display: flex;
+    gap: clamp(14px, 6vw, 60px);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.choose a,
+.choose .no {
+    font-size: clamp(12px, 3.6vw, 16px);
+    color: var(--hi);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 16px);
+    border: 2px solid rgba(255, 210, 117, .35);
+    border-radius: 8px;
+    line-height: 1.2;
+}
+
+/* ◀ 텍스트 대신 CSS 삼각형 도형 */
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 8px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 10px solid var(--main);
+    animation: blink .9s steps(2, end) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: .3
+    }
+}
+
+.choose .no {
+    opacity: .7;
+}
+
+/* 작은 폭: 세로 스택 */
+@media (max-width: 420px) {
+    .choose {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .choose a,
+    .choose .no {
+        width: 100%;
+        max-width: 420px;
+        justify-content: center;
+    }
+}
+
+/* === FOOT === */
+.bottombar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--space-1) var(--space-2);
+    opacity: .8;
+    font-size: clamp(10px, 2.8vw, 13px);
+}
+
+/* 🔥 CSS 불꽃 아이콘 (이모지 대체) */
+.hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.flame {
+    width: 12px;
+    height: 16px;
+    display: inline-block;
+    background:
+        radial-gradient(50% 60% at 50% 75%, #FFD275 0 45%, transparent 55%),
+        radial-gradient(50% 60% at 50% 55%, #FF9E1B 0 45%, transparent 55%),
+        radial-gradient(40% 40% at 50% 30%, #FF6A00 0 50%, transparent 52%),
+        conic-gradient(from 200deg at 50% 80%, transparent 0 40%, #FF9E1B 40% 85%, transparent 85% 100%);
+    border-radius: 6px 6px 10px 10px / 10px 10px 14px 14px;
+    filter: drop-shadow(0 0 4px rgba(255, 158, 27, .6));
+}
+
+
+
+/* 아이콘이 화면 밖으로 나가며 스크롤 유발하지 않도록 보정 */
+.hammer-svg {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: clamp(120px, 26vw, 200px);
+    transform: rotate(-10deg);
+    max-width: 100%;
+}
+
+.saw-svg {
+    position: absolute;
+    right: 0;
+    top: 16%;
+    width: clamp(140px, 30vw, 240px);
+    transform: rotate(8deg);
+    max-width: 100%;
+}
+
+.anvil-svg {
+    position: absolute;
+    left: 50%;
+    bottom: 6%;
+    width: clamp(180px, 40vw, 280px);
+    transform: translateX(-50%);
+    max-width: 100%;
+}
+
+/* 초소형 기기: 겹침/튀어나옴 방지 */
+@media (max-width: 380px) {
+
+    .hammer-svg,
+    .saw-svg {
+        opacity: .35;
+        transform: translateY(4px) scale(.85);
+    }
+
+    .anvil-svg {
+        opacity: .35;
+        transform: translateX(-50%) scale(.9);
+    }
+}
+
+@media (max-width: 330px) {
+    .icons {
+        display: none;
+    }
+}
+
+/* === GRID === */
+.grid {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(transparent 95%, rgba(0, 0, 0, .35) 100%),
+        linear-gradient(90deg, transparent 95%, rgba(0, 0, 0, .35) 100%);
+    background-size: 70px 70px;
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* === ANIMATION === */
+.jitter {
+    animation: jitter 3.3s steps(2, end) infinite;
+}
+
+@keyframes jitter {
+
+    0%,
+    100% {
+        transform: translateZ(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate3d(0, 1px, 0) rotate(.6deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .jitter,
+    .arrow {
+        animation: none !important;
+    }
+}

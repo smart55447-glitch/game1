@@ -1,0 +1,274 @@
+/* 모바일 기본 + 스크롤 금지(1차) */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent
+}
+
+html,
+body {
+    margin: 0;
+    width: 100svw;
+    height: 100svh;
+    overflow: hidden;
+    background: #2f2566;
+    color: #fff;
+    font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* 스테이지(정사각, 중앙) */
+.stage {
+    position: relative;
+    width: min(92svw, 92svh);
+    aspect-ratio: 1/1;
+    border-radius: 14px;
+    background: #eee;
+    overflow: hidden;
+    touch-action: none;
+    /* 드래그/더블탭 스크롤 억제 */
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 상단 HUD */
+.hud {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 10px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5
+}
+
+.hud .time,
+.hud .pct {
+    font-weight: 800;
+    font-size: clamp(16px, 5.2vw, 24px);
+    color: #1b1244;
+    background: #fff;
+    border: 2px solid rgba(0, 0, 0, .12);
+    border-radius: 10px;
+    padding: 6px 10px
+}
+
+/* ✅ HUD 바로 아래 진행바(용접 트랙) */
+.weld-progress {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: calc(10px + clamp(16px, 5.2vw, 24px) + 26px);
+    /* 요청: 살짝 더 아래 */
+    height: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 5;
+    background: #555;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+}
+
+.weld-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff8a00, #ff0000);
+    box-shadow: 0 0 8px rgba(255, 0, 0, .55);
+    transition: width .2s ease-out;
+}
+
+/* 금속판 두 장 (하단 레이어) */
+.plates {
+    position: absolute;
+    inset: 0;
+    z-index: 1
+}
+
+.plate {
+    position: absolute;
+    left: 6%;
+    width: 88%;
+    height: 22%;
+    background: linear-gradient(180deg, #a3acb6 0%, #cfd6dd 55%, #909aa4 100%);
+    border: 3px solid #7a8390;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -1px 0 rgba(0, 0, 0, .12);
+    z-index: 1;
+    /* ✅ 점점 검게(진행/열 기반) */
+    filter: brightness(calc(1 - (var(--darken, 0) * 0.45)));
+    transition: filter .18s ease;
+}
+
+.plate-top {
+    top: calc(50% - 6% - 10% - 10%)
+}
+
+.plate-bottom {
+    bottom: calc(50% - 6% - 10%)
+}
+
+/* 경계 강조 */
+.edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    opacity: .5;
+    pointer-events: none;
+    z-index: 1
+}
+
+.edge-bottom {
+    bottom: -6px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .18), transparent)
+}
+
+.edge-top {
+    top: -6px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, .18), transparent)
+}
+
+.gap-line {
+    position: absolute;
+    left: 6%;
+    width: 88%;
+    height: 3px;
+    top: calc(50% - 1.5px);
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .5), transparent);
+    filter: blur(.15px);
+    z-index: 1
+}
+
+/* 중앙 하얀 금속(맨 위) — 시작: 작은 정사각형 → 점차 얇고 긴 선 */
+.ingot {
+    --w: calc(var(--ingotW, 14)*1%);
+    --h: calc(var(--ingotH, 14)*1%);
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 4%);
+    /* 살짝 위로 */
+    width: var(--w);
+    height: var(--h);
+    transform: translate(-50%, -50%);
+    border-radius: max(6px, min(12px, calc(var(--h)*.35)));
+    background: linear-gradient(180deg, #f7f9fb 0%, #e7eef6 100%);
+    overflow: hidden;
+    z-index: 4;
+    transition: width .18s ease, height .18s ease, border-radius .18s ease, filter .18s ease;
+}
+
+/* 강한 적열감: 중앙 노랑 → 진빨강 */
+.ingot::after {
+    content: "";
+    position: absolute;
+    inset: -14% -10%;
+    background: radial-gradient(circle at 50% 50%,
+            rgba(255, 238, 0, calc(0.30 + 0.50*var(--heat, 0))) 0%,
+            rgba(255, 102, 0, calc(0.28 + 0.45*var(--heat, 0))) 38%,
+            rgba(255, 0, 0, calc(0.34 + 0.55*var(--heat, 0))) 100%);
+    mix-blend-mode: multiply;
+    opacity: 1;
+    transition: opacity .12s ease, transform .12s ease;
+}
+
+/* 하단 게이지 */
+.gauge {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 5
+}
+
+.gauge-track {
+    position: relative;
+    height: 48px;
+    border-radius: 26px;
+    background: rgba(0, 0, 0, .20);
+    border: 2px solid rgba(0, 0, 0, .28);
+    overflow: hidden
+}
+
+.gauge-center {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    transform: translateX(-2px);
+    background: rgba(255, 255, 255, .98)
+}
+
+.gauge-track::before {
+    content: "";
+    position: absolute;
+    inset: 4px 6px;
+    background: linear-gradient(90deg, transparent, rgba(255, 60, 40, .15), transparent);
+    border-radius: 22px
+}
+
+/* 바늘(버튼) */
+.needle-pos {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.needle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%)
+}
+
+.needle .tip {
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 26px solid #ffd275;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .25));
+}
+
+/* 안내/불 */
+.hint {
+    align-self: flex-start;
+    font-size: 12px;
+    color: #1b1244;
+    background: rgba(255, 248, 230, .96);
+    border: 2px solid rgba(0, 0, 0, .15);
+    border-radius: 10px;
+    padding: 6px 8px
+}
+
+.fire {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(.85);
+    font-size: 54px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .12s ease, transform .12s ease;
+    z-index: 6
+}
+
+.fire.on {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+}

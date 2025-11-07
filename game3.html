@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>METALCRAFT — CH3 (사포질)</title>
+    <link rel="stylesheet" href="./src/game3.css" />
+</head>
+
+<body>
+    <div class="stage">
+        <!-- HUD -->
+        <div class="hud">
+            <div class="time" id="hudTime">⏱ 30</div>
+            <div class="pct" id="hudPct">0%</div>
+        </div>
+
+        <!-- 작업 영역 -->
+        <div class="workspace" id="workspace">
+            <canvas id="canvas" width="700" height="700" aria-label="Sanding canvas"></canvas>
+        </div>
+
+        <div class="hint">검은 그을림을 손가락으로 문질러 지워봐! (30초)</div>
+    </div>
+
+    <script src="./src/game3.js"></script>
+</body>
+
+</html>

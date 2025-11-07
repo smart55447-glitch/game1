@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>축하합니다! — METALCRAFT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg1: #3B2F77;
+            --bg2: #2F2566;
+            --ink: #FFF4DA;
+            --hi: #FFD275;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            /* 가로 스크롤 방지 */
+            background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+            color: var(--ink);
+            font-family: 'Press Start 2P', system-ui, -apple-system, 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            min-height: 100svh;
+            /* 모바일 주소창 대응 */
+            display: grid;
+            place-items: center;
+            /* 완전 중앙 정렬 */
+            padding: env(safe-area-inset-top) clamp(14px, 4vw, 24px) env(safe-area-inset-bottom);
+        }
+
+        .wrap {
+            width: min(92svw, 720px);
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 255, 255, .06);
+            border: 2px solid rgba(255, 255, 255, .18);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+            padding: clamp(18px, 5vw, 40px);
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            line-height: 1.25;
+            font-size: clamp(20px, 6vw, 34px);
+            color: var(--hi);
+            text-shadow: 0 3px 0 rgba(0, 0, 0, .25);
+            word-break: keep-all;
+        }
+
+        p {
+            margin: 6px 0 0;
+            font-size: clamp(12px, 3.6vw, 16px);
+            opacity: .95;
+            word-break: keep-all;
+        }
+
+        .btn {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            font-size: clamp(12px, 3.6vw, 16px);
+            color: #1b1244;
+            background: var(--hi);
+            border: 2px solid rgba(0, 0, 0, .15);
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, .12);
+            touch-action: manipulation;
+            /* 터치 지연 제거 */
+            user-select: none;
+        }
+
+        .sub {
+            margin-top: 8px;
+            font-size: 12px;
+            opacity: .75;
+        }
+
+        @media (max-width: 360px) {
+            .wrap {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap" role="main" aria-label="클리어 안내">
+        <h1>🎉 축하해!!!!!!!!!!!</h1>
+        <p>금속공예로 온 걸 환영해 — <b>이제 시작이야!!</b> 🔥</p>
+        <p class="sub">아래 버튼을 터치하면 메인으로 돌아갑니다. (진행도는 초기화 완료)</p>
+        <a class="btn" id="goHome" href="./index.html" role="button" aria-label="메인으로 가기">메인으로 가기</a>
+    </div>
+
+    <script>
+        // 진행도 초기화: mc: 로 시작하는 키들만 삭제
+        (function resetProgress() {
+            const keys = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && k.startsWith('mc:')) keys.push(k);
+            }
+            keys.forEach(k => localStorage.removeItem(k));
+        })();
+
+        // ⚠ 자동 이동 제거: 버튼 '터치'로만 이동
+        const goBtn = document.getElementById('goHome');
+
+        // 터치 전용 이동 (iOS 300ms delay 회피)
+        goBtn.addEventListener('touchstart', function (e) {
+            e.preventDefault();            // 링크 기본 동작 중복 방지
+            window.location.href = this.href;
+        }, { passive: false });
+
+        // (옵션) 데스크톱 테스트용 클릭도 유지하고 싶다면 주석 해제
+        // goBtn.addEventListener('click', function(e){
+        //   e.preventDefault();
+        //   window.location.href = this.href;
+        // });
+    </script>
+</body>
+
+</html>

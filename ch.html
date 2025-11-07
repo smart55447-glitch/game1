@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>METALCRAFT — Chapters</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/ch.css" />
+</head>
+
+<body>
+    <div class="crt-wrap">
+        <div class="crt-panel">
+            <header class="topbar">
+                <h1 class="brand">METALCRAFT</h1>
+                <div class="meta">CHAPTER SELECT</div>
+            </header>
+
+            <main class="center">
+                <section class="chapter-list">
+
+                    <!-- CH1: 항상 열림 -->
+                    <a class="chapter-card" data-chapter="1" href="./game.html">
+                        <span class="pill">CHAPTER 1</span>
+                        <h2 class="title">톱으로 자르기</h2>
+                        <p class="desc">기본 금속 판을 정확히 컷팅!</p>
+                        <span class="status">✅ CLEAR 가능</span>
+                    </a>
+
+                    <!-- CH2: 초기 잠김 -->
+                    <a class="chapter-card locked" data-chapter="2" href="./game2.html" aria-disabled="true"
+                        tabindex="-1">
+                        <span class="pill">CHAPTER 2</span>
+                        <h2 class="title">금속 붙이기</h2>
+                        <p class="desc">용접·접합으로 형태 만들기</p>
+                        <span class="status">🔒 잠김 — CH1 클리어 필요</span>
+                    </a>
+
+                    <!-- CH3: 초기 잠김 -->
+                    <a class="chapter-card locked" data-chapter="3" href="./game3.html" aria-disabled="true"
+                        tabindex="-1">
+                        <span class="pill">CHAPTER 3</span>
+                        <h2 class="title">사포질 하기</h2>
+                        <p class="desc">표면 연마 & 마감 디테일!</p>
+                        <span class="status">🔒 잠김 — CH2 클리어 필요</span>
+                    </a>
+
+                </section>
+
+                <noscript>
+                    <p style="margin-top:12px;font-size:12px;opacity:.8">
+                        JavaScript가 꺼져 있으면 잠금 해제가 표시되지 않을 수 있어요.
+                    </p>
+                </noscript>
+            </main>
+
+            <footer class="bottombar">
+                <button class="reset-btn" type="button" id="resetProgress">진행도 초기화</button>
+            </footer>
+
+            <div class="grid" aria-hidden="true"></div>
+        </div>
+    </div>
+
+    <!-- ✅ 잠금/해제 최소 스크립트 -->
+    <script>
+        (function () {
+            // ch1 클리어 → ch2 해제
+            if (localStorage.getItem('mc:chap1') === 'cleared') {
+                unlock(2, '✅ 열림 — CH1 클리어');
+            }
+            // ch2 클리어 → ch3 해제
+            if (localStorage.getItem('mc:chap2') === 'cleared') {
+                unlock(3, '✅ 열림 — CH2 클리어');
+            }
+            // ch3 클리어도 저장해두면 차후 확장 가능
+            // if (localStorage.getItem('mc:chap3') === 'cleared') { ... }
+
+            function unlock(n, msg) {
+                const el = document.querySelector(`.chapter-card[data-chapter="${n}"]`);
+                if (!el) return;
+                el.classList.remove('locked');
+                el.removeAttribute('aria-disabled');
+                el.removeAttribute('tabindex');
+                const status = el.querySelector('.status');
+                if (status) status.textContent = msg || '✅ 열림';
+            }
+
+            // 진행도 리셋 버튼
+            const resetBtn = document.getElementById('resetProgress');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    ['mc:chap1', 'mc:chap2', 'mc:chap3'].forEach(k => localStorage.removeItem(k));
+                    location.reload();
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>

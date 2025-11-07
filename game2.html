@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>METALCRAFT — CH2</title>
+    <link rel="stylesheet" href="./src/game2.css" />
+</head>
+
+<body>
+    <div class="stage" id="stage" style="--progress:0; --heat:0; --ingotW:14; --ingotH:14; --darken:0;">
+        <!-- 상단 HUD -->
+        <div class="hud">
+            <div class="time" id="hudTime">⏱ 60</div>
+            <div class="pct" id="hudPct">0%</div>
+        </div>
+
+        <!-- ✅ HUD 바로 아래: 용접 진행바(트랙) -->
+        <div class="weld-progress">
+            <div class="weld-fill" id="weldFill"></div>
+        </div>
+
+        <!-- 금속판/갭/하얀 금속 -->
+        <div class="plates">
+            <div class="plate plate-top">
+                <div class="edge edge-bottom"></div>
+            </div>
+            <div class="gap-line"></div>
+            <div class="plate plate-bottom">
+                <div class="edge edge-top"></div>
+            </div>
+            <!-- 가장 위: 하얀 금속(작은 정사각형 → 점차 선처럼) -->
+            <div class="ingot" id="ingot" aria-label="중앙 금속 조각"></div>
+        </div>
+
+        <!-- 하단 게이지 + 바늘 -->
+        <div class="gauge">
+            <div class="gauge-track" id="track">
+                <div class="gauge-center"></div>
+                <button class="needle-pos" id="needlePos" aria-label="게이지 바늘">
+                    <span class="needle"><span class="tip"></span></span>
+                </button>
+            </div>
+            <div class="hint">바늘이 중앙일 때 바늘을 탭! 🔥</div>
+        </div>
+
+        <!-- 효과 -->
+        <div class="fire" id="fireFx">🔥</div>
+    </div>
+
+    <script src="./src/game2.js"></script>
+</body>
+
+</html>

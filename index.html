@@ -1,18 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="./src/style.css">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>FORGE START</title>
+
+    <!-- Pixel fonts (원문 유지) -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/toss/slashee@1.0.0/dist/slashee.min.css" rel="stylesheet">
+
+    <!-- CSS 분리 -->
+    <link rel="stylesheet" href="./src/style1.css">
 </head>
 
 <body>
+    <div class="crt-wrap">
+        <div class="crt-panel">
+            <header class="topbar">
+                <div class="hiscore">
+                    <span class="label">HI-SMITH</span>
+                    <span class="score">123400</span>
+                </div>
+                <ul class="lives" aria-label="장갑(라이프)">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </header>
 
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
+            <main class="center">
 
-    <script type="module" src="./src/main.js"></script>
+
+                <!-- 🔨 이모지 대신 아이콘 이미지 사용 -->
+                <h1 class="title-pixel">
+
+                    LET’S GO METALCRAFT
+                </h1>
+
+                <p class="ready">
+                    ARE YOU READY?<br>
+                    <em>톱이 울면 예술이 시작된다.</em>
+                </p>
+
+                <nav class="choose" aria-label="시작 여부 선택">
+                    <!-- ◀ 텍스트 대신 CSS 삼각형 도형 -->
+                    <a class="yes" href="./ch.html"><span class="arrow" aria-hidden="true"></span> YES (금공으로 간다)</a>
+                    <span class="no">NO (도망간다)</span>
+                </nav>
+            </main>
+
+            <footer class="bottombar">
+                <!-- 🔥 이모지 대신 CSS 불꽃 아이콘 -->
+                <div class="hint"><span class="flame" aria-hidden="true"></span> TIP: 과열되면 철이 삐진다. 적당히</div>
+            </footer>
+
+            <div class="grid" aria-hidden="true"></div>
+        </div>
+    </div>
 </body>
 
 </html>
